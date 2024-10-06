@@ -101,6 +101,15 @@ public class OrdersController : ControllerBase
     }
     
     [Authorize(Roles = Constants.Roles.Customer)]
+    [HttpPost("OrderCompleted")]
+    [OpenApiOperation(ApiOperationBaseName + nameof(OrderCompleted))]
+    public async Task<ActionResult<bool>> OrderCompleted(int orderId)
+    {
+        
+        return Ok(await _mediator.Send(new OrderCompletedCommand(orderId, User)));
+    }
+    
+    [Authorize(Roles = Constants.Roles.Customer)]
     [HttpGet("User")]
     [OpenApiOperation(ApiOperationBaseName + nameof(GetOrdersForCustomer))]
     public async Task<ActionResult<List<OrderListModel>>> GetOrdersForCustomer()
