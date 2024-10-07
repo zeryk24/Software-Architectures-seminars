@@ -18,4 +18,6 @@ public class OrderEntity : Entity
     public AddressEntity? Address { get; set; }
 
     public List<OrderItemEntity> OrderItems { get; set; }
+
+    public bool Completed { get; set; } = false;
 }

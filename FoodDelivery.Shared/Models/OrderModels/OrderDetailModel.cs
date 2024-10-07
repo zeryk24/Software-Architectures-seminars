@@ -18,4 +18,6 @@ public class OrderDetailModel
     public AddressDetailModel Address { get; set; }
 
     public List<OrderItemListModel> OrderItems { get; set; }
+    
+    public bool Completed { get; set; }
 }
