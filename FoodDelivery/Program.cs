@@ -1,10 +1,9 @@
-using FoodDelivery.BL.Installers;
-using FoodDelivery.DAL.Installers;
-using MediatR;
-using Microsoft.Extensions.Configuration;
-using System.Reflection;
 using FoodDelivery.Installers;
+using FoodDelivery.Presentation;
+using Inventory;
 using Microsoft.OpenApi.Models;
+using Wolverine;
+using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
+    c.CustomSchemaIds(s => s.FullName.Replace("+", "."));
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme.
@@ -44,16 +44,43 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
     
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food Delivery", Version = "v1"});
+    c.SwaggerDoc("foodDelivery", new OpenApiInfo { Title = "Food Delivery", Version = "v1"});
+    c.SwaggerDoc("inventory", new OpenApiInfo { Title = "Inventory", Version = "v1"});
+    
+    c.DocInclusionPredicate((docName, apiDesc) =>
+    {
+        var tags = apiDesc.ActionDescriptor.EndpointMetadata
+            .OfType<TagsAttribute>()
+            .SelectMany(t => t.Tags)
+            .ToList();
+
+        if (docName == "foodDelivery")
+        {
+            // Show only endpoints tagged with "main-api" on v1 Swagger document
+            return tags.Any(tag => tag.StartsWith("FoodDelivery"));
+        }
+        if (docName == "inventory")
+        {
+            // Show only endpoints tagged with "new-api" on new-api Swagger document
+            return tags.Any(tag => tag.StartsWith("Inventory"));
+        }
+
+        return false;
+    });
 });
 
+
+//Old system
 var connectionString = builder.Configuration.GetConnectionString("DeployedDatabase");
+builder.Services.InstallPresentation(connectionString);
+
+//New modules
+builder.Services.InstallInventory();
+
 var securityKey = builder.Configuration["AuthSettings:Key"];
-builder.Services.DalInstall(connectionString);
-builder.Services.BlInstall();
-builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.ApiInstall(securityKey);
 
+builder.Host.UseWolverine();
 
 var app = builder.Build();
 
@@ -61,7 +88,24 @@ var app = builder.Build();
 //if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        // Default Swagger page for main API
+        c.SwaggerEndpoint("/swagger/foodDelivery/swagger.json", "Food Delivery v1");
+
+        // Separate Swagger page for new API endpoints
+        c.SwaggerEndpoint("/swagger/inventory/swagger.json", "Inventory v1");
+    });
+    
+    app.Map("/new-api-docs", appBuilder =>
+    {
+        appBuilder.UseSwaggerUI(c =>
+        {
+            // Only show new API on this page
+            c.SwaggerEndpoint("/swagger/inventory/swagger.json", "Inventory v1");
+            c.RoutePrefix = string.Empty;  // Serve at this new route
+        });
+    });
 }
 
 app.UseHttpsRedirection();
@@ -70,5 +114,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapWolverineEndpoints();
 
 app.Run();

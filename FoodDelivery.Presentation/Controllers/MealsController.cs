@@ -17,6 +17,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FoodDelivery.Controllers;
 
+[Tags("FoodDelivery - Meal")]
 [ApiController]
 [Route("api/[controller]")]
 public class MealsController : ControllerBase

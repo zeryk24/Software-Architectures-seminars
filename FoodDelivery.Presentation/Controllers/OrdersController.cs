@@ -12,12 +12,14 @@ using FoodDelivery.Shared.Models.AddressModels;
 using FoodDelivery.Shared.Models.OrderModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
 namespace FoodDelivery.Controllers;
 
+[Tags("FoodDelivery - Order")]
 [ApiController]
 [Route("api/[controller]")]
 public class OrdersController : ControllerBase

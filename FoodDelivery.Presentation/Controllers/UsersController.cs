@@ -8,12 +8,14 @@ using FoodDelivery.Shared.Models.AddressModels;
 using FoodDelivery.Shared.Models.UserModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
 namespace FoodDelivery.Controllers;
 
+[Tags("FoodDelivery - User")]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController : ControllerBase

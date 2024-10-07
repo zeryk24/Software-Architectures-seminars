@@ -7,11 +7,13 @@ using FoodDelivery.Shared.Models.FeedbackModels;
 using FoodDelivery.Shared.Models.FeedbacksModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
 namespace FoodDelivery.Controllers;
 
+[Tags("FoodDelivery - Feedback")]
 [ApiController]
 [Route("api/[controller]")]
 public class FeedbacksController : ControllerBase

@@ -1,16 +1,15 @@
-using FoodDelivery.BL.Commands.AddressCommands;
 using FoodDelivery.BL.Queries.AddressQueries;
-using FoodDelivery.DAL.EFCore.Entities;
 using FoodDelivery.Shared.Constants;
 using FoodDelivery.Shared.Models.AddressModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
 namespace FoodDelivery.Controllers;
 
+[Tags("FoodDelivery - Address")]
 [ApiController]
 [Route("api/[controller]")]
 public class AddressesController : ControllerBase

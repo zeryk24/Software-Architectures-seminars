@@ -6,12 +6,14 @@ using FoodDelivery.Shared.Models.MealsModels;
 using FoodDelivery.Shared.Models.RestaurantModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
 namespace FoodDelivery.Controllers;
 
+[Tags("FoodDelivery - Restaurant")]
 [ApiController]
 [Route("api/[controller]")]
 public class RestaurantsController : ControllerBase

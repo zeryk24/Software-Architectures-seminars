@@ -8,11 +8,13 @@ using FoodDelivery.Shared.Models.OrderItemsModels;
 using FoodDelivery.Shared.Models.OrderModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 
 namespace FoodDelivery.Controllers;
 
+[Tags("FoodDelivery - OrderItem")]
 [ApiController]
 [Route("api/[controller]")]
 public class OrderItemsController : ControllerBase
