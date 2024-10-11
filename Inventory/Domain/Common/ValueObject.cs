@@ -1,6 +1,6 @@
 ﻿namespace Inventory.Domain.Common;
 
-internal abstract class ValueObject : IEquatable<ValueObject>
+public abstract class ValueObject : IEquatable<ValueObject>
 {
     public override bool Equals(object? obj)
     {

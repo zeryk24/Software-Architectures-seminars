@@ -1,6 +1,6 @@
 ﻿namespace Inventory.Domain.Common;
 
-internal abstract class AggregateRoot<TId> : Entity<TId> where TId : notnull
+public abstract class AggregateRoot<TId> : Entity<TId> where TId : notnull
 {
     protected AggregateRoot() { }
 

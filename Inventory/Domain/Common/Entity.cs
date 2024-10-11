@@ -1,6 +1,6 @@
 ﻿namespace Inventory.Domain.Common;
 
-internal abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
+public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
 {
     public TId Id { get; protected set; }
 
