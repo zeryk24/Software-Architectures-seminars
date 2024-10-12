@@ -75,7 +75,8 @@ var connectionString = builder.Configuration.GetConnectionString("DeployedDataba
 builder.Services.InstallPresentation(connectionString);
 
 //New modules
-builder.Services.InstallInventory();
+var inventoryConnectionString = builder.Configuration.GetConnectionString("InventoryDatabase");
+builder.Services.InstallInventory(inventoryConnectionString!);
 
 var securityKey = builder.Configuration["AuthSettings:Key"];
 builder.Services.ApiInstall(securityKey);

@@ -8,6 +8,7 @@ public class Goods : AggregateRoot<GoodsId>
     public GoodsName Name { get; private set; }
     public GoodsAmount Amount { get; private set; }
     
+    private Goods() { }
     private Goods(GoodsName name, GoodsAmount amount)
     {
         Name = name;

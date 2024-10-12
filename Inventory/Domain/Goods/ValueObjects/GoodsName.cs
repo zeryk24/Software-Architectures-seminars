@@ -5,8 +5,6 @@ namespace Inventory.Domain.Goods.ValueObjects;
 public class GoodsName : ValueObject
 {
     public string Value { get; private set; }
-
-    private GoodsName() {}
     
     private GoodsName(string value)
     {

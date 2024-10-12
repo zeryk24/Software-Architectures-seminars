@@ -1,6 +1,5 @@
 using ErrorOr;
 using Inventory.Domain.Common;
-using Inventory.Domain.Order;
 
 namespace Inventory.Domain.Goods.ValueObjects;
 
@@ -8,7 +7,7 @@ public class GoodsAmount : ValueObject
 {
     public int UnitsAmount { get; private set; }
 
-    public GoodsAmount(int unitsAmount)
+    private GoodsAmount(int unitsAmount)
     {
         UnitsAmount = unitsAmount;
     }
