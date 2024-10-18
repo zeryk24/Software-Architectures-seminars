@@ -1,5 +1,6 @@
 using Inventory.Domain.Common;
 using Inventory.Domain.Goods.ValueObjects;
+using ErrorOr;
 
 namespace Inventory.Domain.Goods;
 
@@ -9,13 +10,22 @@ public class Goods : AggregateRoot<GoodsId>
     public GoodsAmount Amount { get; private set; }
     
     private Goods() { }
-    private Goods(GoodsName name, GoodsAmount amount)
+    private Goods(GoodsId id, GoodsName name, GoodsAmount amount) : base(id)
     {
         Name = name;
         Amount = amount;
     }
 
-    public static Goods Create(GoodsName name, GoodsAmount amount) => new Goods(name, amount);
+    public static ErrorOr<Goods> Create(string name, int amount)
+    {
+        var goodsName = GoodsName.Create(name);
+        var goodsAmount = GoodsAmount.Create(amount);
+
+        if (goodsAmount.IsError)
+            return goodsAmount.Errors;
+        
+        return new Goods(GoodsId.CreateUnique(), goodsName, goodsAmount.Value);
+    }
 }
 
 public static class GoodsErrors
