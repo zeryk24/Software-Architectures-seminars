@@ -10,7 +10,7 @@ public class OrderItem : Entity<OrderItemId>
     public OrderItemPrice Price { get; private set; }
     
     private OrderItem() { }
-    private OrderItem(OrderItemGoods goods, OrderItemAmount amount, OrderItemPrice price)
+    private OrderItem(OrderItemId id, OrderItemGoods goods, OrderItemAmount amount, OrderItemPrice price) : base(id)
     {
         Goods = goods;
         Amount = amount;
@@ -18,7 +18,7 @@ public class OrderItem : Entity<OrderItemId>
     }
 
     public static OrderItem Create(OrderItemGoods goodsId, OrderItemAmount amount, OrderItemPrice price) =>
-        new OrderItem(goodsId, amount, price);
+        new OrderItem(OrderItemId.CreateUnique(), goodsId, amount, price);
 }
 
 public static class OrderItemErrors

@@ -11,10 +11,16 @@ public class Order : AggregateRoot<OrderId>
     public Address Address { get; private set; }
     
     private Order() { }
-    private Order(OrderId Id, Address address) : base(Id)
+    private Order(OrderId id, Address address, IEnumerable<OrderItem.OrderItem> orderItems) : base(id)
     {
         Address = address;
+        _orderItems = orderItems.ToList();
     }
 
-    public static Order Create(Address address) => new(OrderId.CreateUnique(), address);
+    public static Order Create(Address address, IEnumerable<OrderItem.OrderItem> orderItems) => new(OrderId.CreateUnique(), address, orderItems);
+}
+
+public static class OrderErrors
+{
+    public const string OrderNotFound = nameof(OrderNotFound);
 }

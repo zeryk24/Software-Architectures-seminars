@@ -16,6 +16,8 @@ public class Goods : AggregateRoot<GoodsId>
         Amount = amount;
     }
 
+    public bool IsAmountAvailable(int amount) => Amount.UnitsAmount >= amount;
+    
     public static ErrorOr<Goods> Create(string name, int amount)
     {
         var goodsName = GoodsName.Create(name);
