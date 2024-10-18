@@ -1,6 +1,7 @@
 using FoodDelivery.Installers;
 using FoodDelivery.Presentation;
 using Inventory;
+using Inventory.Infrastructure.Persistence;
 using Microsoft.OpenApi.Models;
 using Wolverine;
 using Wolverine.Http;
@@ -84,6 +85,8 @@ builder.Services.ApiInstall(securityKey);
 builder.Host.UseWolverine();
 
 var app = builder.Build();
+
+InventoryInstaller.SeedInventory(app.Services.GetService<InventoryDbContext>());
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
