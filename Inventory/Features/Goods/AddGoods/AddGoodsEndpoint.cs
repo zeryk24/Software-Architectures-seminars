@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Wolverine;
 using Wolverine.Http;
 
-namespace Inventory.Features.AddGoods;
+namespace Inventory.Features.Goods.AddGoods;
 
 public class AddGoodsEndpoint
 {
@@ -19,9 +19,9 @@ public class AddGoodsEndpoint
             value => Results.Ok(
                 new Response(
                     new(
-                        value.AddedGoods.Id,
-                        value.AddedGoods.Name,
-                        value.AddedGoods.Amount
+                        value.Goods.Id,
+                        value.Goods.Name,
+                        value.Goods.Amount
                     )
                 )
             ),

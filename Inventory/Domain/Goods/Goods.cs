@@ -31,4 +31,5 @@ public class Goods : AggregateRoot<GoodsId>
 public static class GoodsErrors
 {
     public const string GoodsAmountCanNotBeNegative = nameof(GoodsAmountCanNotBeNegative);
+    public const string GoodsNotFound = nameof(GoodsNotFound);
 }

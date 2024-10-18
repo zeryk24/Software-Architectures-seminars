@@ -1,21 +1,20 @@
-using Inventory.Domain.Goods;
-using Inventory.Features.Services;
 using ErrorOr;
+using Inventory.Features.Services;
 
-namespace Inventory.Features.AddGoods;
+namespace Inventory.Features.Goods.AddGoods;
 
 public record AddGoodsCommand(string Name, int Amount)
 {
-    public record Result(AddedGoods AddedGoods);
+    public record Result(AddedGoods Goods);
 
     public record AddedGoods(Guid Id, string Name, int Amount);
 }
 
-public class AddGoodsCommandHandler(IRepository<Goods> _repository)
+public class AddGoodsCommandHandler(IRepository<Domain.Goods.Goods> _repository)
 {
     public async Task<ErrorOr<AddGoodsCommand.Result>> HandleAsync(AddGoodsCommand command)
     {
-        var goods = Goods.Create(command.Name, command.Amount);
+        var goods = Domain.Goods.Goods.Create(command.Name, command.Amount);
 
         if (goods.IsError)
             return goods.Errors;
