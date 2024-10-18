@@ -11,10 +11,10 @@ public class Order : AggregateRoot<OrderId>
     public Address Address { get; private set; }
     
     private Order() { }
-    private Order(Address address)
+    private Order(OrderId Id, Address address) : base(Id)
     {
         Address = address;
     }
 
-    public static Order Create(Address address) => new(address);
+    public static Order Create(Address address) => new(OrderId.CreateUnique(), address);
 }
