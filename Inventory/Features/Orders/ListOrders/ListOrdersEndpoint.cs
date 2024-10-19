@@ -18,7 +18,7 @@ public class ListOrdersEndpoint
         return result.Match(
             value => Results.Ok(
                 new Response(
-                    value.Orders.Select(o => new Response.Order(o.Id, o.ItemsCount))
+                    value.Orders.Select(o => new Response.Order(o.Id, o.ItemsCount, o.IsProcessed))
                 )
             ),
             errors => Results.BadRequest(errors.Select(e => e.Code))
@@ -30,6 +30,6 @@ public class ListOrdersEndpoint
 
     public record Response(IEnumerable<Response.Order> Orders)
     {
-        public record Order(Guid Id, int ItemsCount);
+        public record Order(Guid Id, int ItemsCount, bool IsProcessed);
     }
 }

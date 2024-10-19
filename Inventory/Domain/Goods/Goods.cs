@@ -32,6 +32,21 @@ public class Goods : AggregateRoot<GoodsId>
 
         return Result.Success;
     }
+
+    public ErrorOr<Success> DecreaseAmount(int amount)
+    {
+        var newAmount = Amount.Value - amount;
+        if (newAmount < 0)
+            return Error.Validation(GoodsErrors.NotEnoughtGoods);
+
+        var result = GoodsAmount.Create(newAmount);
+        if (result.IsError)
+            return result.Errors;
+        
+        Amount = result.Value;
+
+        return Result.Success;
+    }
     
     public static ErrorOr<Goods> Create(string name, int amount)
     {
@@ -47,6 +62,7 @@ public class Goods : AggregateRoot<GoodsId>
 
 public static class GoodsErrors
 {
+    public const string NotEnoughtGoods = nameof(NotEnoughtGoods);
     public const string GoodsAmountCanNotBeNegative = nameof(GoodsAmountCanNotBeNegative);
     public const string RestockedAmountCanNotBeNegative = nameof(RestockedAmountCanNotBeNegative);
     public const string GoodsNotFound = nameof(GoodsNotFound);

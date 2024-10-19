@@ -12,7 +12,7 @@ public record InspectOrderQuery(Guid OrderId)
 {
     public record Result(Order OrderInspection);
     
-    public record Order(Guid Id, IEnumerable<OrderItem> OrderItems, Address Address);
+    public record Order(Guid Id, IEnumerable<OrderItem> OrderItems, Address Address, DateTime? Processed);
 
     public record OrderItem(Guid Id, int Amount, OrderItemPrice Price, bool IsAmountAvailable);
 
@@ -48,11 +48,12 @@ public class InspectOrderQueryHandler(
                 order.Id.Value,
                 orderInspectionItems.Value,
                 new(
-                    order.OrderAddress.State,
-                    order.OrderAddress.City,
-                    order.OrderAddress.Code,
-                    order.OrderAddress.StreetAndNumber
-                )
+                    order.Address.State,
+                    order.Address.City,
+                    order.Address.Code,
+                    order.Address.StreetAndNumber
+                ),
+                order.Processed.ProcessedAt
             )
         );
     }

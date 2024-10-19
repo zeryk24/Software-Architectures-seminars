@@ -3,6 +3,7 @@ using System;
 using Inventory.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Inventory.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(InventoryDbContext))]
-    partial class InventoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241019115032_changedNaming")]
+    partial class changedNaming
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
@@ -83,7 +86,7 @@ namespace Inventory.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Inventory.Domain.Order.Order", b =>
                 {
-                    b.OwnsOne("Inventory.Domain.Order.ValueObjects.OrderAddress", "Address", b1 =>
+                    b.OwnsOne("Inventory.Domain.Order.ValueObjects.OrderAddress", "OrderAddress", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("TEXT");
@@ -101,25 +104,6 @@ namespace Inventory.Infrastructure.Persistence.Migrations
 
                             b1.Property<string>("StreetAndNumber")
                                 .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("OrderId");
-
-                            b1.ToTable("Orders");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OrderId");
-                        });
-
-                    b.OwnsOne("Inventory.Domain.Order.ValueObjects.OrderProcessed", "Processed", b1 =>
-                        {
-                            b1.Property<Guid>("OrderId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<bool>("IsProcessed")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<DateTime?>("ProcessedAt")
                                 .HasColumnType("TEXT");
 
                             b1.HasKey("OrderId");
@@ -209,13 +193,10 @@ namespace Inventory.Infrastructure.Persistence.Migrations
                                 .IsRequired();
                         });
 
-                    b.Navigation("Address")
+                    b.Navigation("OrderAddress")
                         .IsRequired();
 
                     b.Navigation("OrderItems");
-
-                    b.Navigation("Processed")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -8,7 +8,7 @@ public record ListOrdersQuery(int Page, int PageSize)
 {
     public record Result(IEnumerable<Order> Orders);
     
-    public record Order(Guid Id, int ItemsCount);
+    public record Order(Guid Id, int ItemsCount, bool IsProcessed);
 }
 
 public class ListOrdersQueryHandler(IQueryObject<Order> _queryObject)
@@ -17,7 +17,7 @@ public class ListOrdersQueryHandler(IQueryObject<Order> _queryObject)
     {
         var orders = await _queryObject.Page(query.Page, query.PageSize).ExecuteAsync();
 
-        var result = orders.Select(o => new ListOrdersQuery.Order(o.Id.Value, o.OrderItems.Count));
+        var result = orders.Select(o => new ListOrdersQuery.Order(o.Id.Value, o.OrderItems.Count, o.Processed.IsProcessed));
 
         return new ListOrdersQuery.Result(result);
     }

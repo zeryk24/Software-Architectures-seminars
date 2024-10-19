@@ -1,9 +1,9 @@
 ﻿namespace Inventory.Domain.Common;
 
-public abstract class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
+public abstract class Entity<TId> : BaseEntity,  IEquatable<Entity<TId>> where TId : notnull
 {
     public TId Id { get; protected set; }
-
+    
     protected Entity() { }
 
     protected Entity(TId id)

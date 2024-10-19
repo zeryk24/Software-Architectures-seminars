@@ -12,12 +12,12 @@ public class GoodsAmount : ValueObject
         Value = value;
     }
 
-    public static ErrorOr<GoodsAmount> Create(int unitsAmount)
+    public static ErrorOr<GoodsAmount> Create(int value)
     {
-        if (unitsAmount < 0)
+        if (value < 0)
             return Error.Validation(GoodsErrors.GoodsAmountCanNotBeNegative);
 
-        return new GoodsAmount(unitsAmount);
+        return new GoodsAmount(value);
     }
 
     protected override IEnumerable<object?> GetEqualityComponents()

@@ -33,7 +33,8 @@ public class InspectOrderEndpoint
                             value.OrderInspection.Address.City,
                             value.OrderInspection.Address.Code,
                             value.OrderInspection.Address.StreetAndNumber
-                        )
+                        ),
+                        value.OrderInspection.Processed
                     )
                 )
             ),
@@ -46,7 +47,7 @@ public class InspectOrderEndpoint
 
     public record Response(Response.Order OrderInspection)
     {
-        public record Order(Guid Id, IEnumerable<OrderItem> OrderItems, Address Address);
+        public record Order(Guid Id, IEnumerable<OrderItem> OrderItems, Address Address, DateTime? Processed);
 
         public record OrderItem(Guid Id, int Amount, OrderItemPrice Price, bool IsAmountAvailable);
 
