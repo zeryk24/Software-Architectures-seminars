@@ -34,16 +34,34 @@ public class InspectOrderQueryHandler(
         if (order is null)
             return Error.Validation(OrderErrors.OrderNotFound);
 
-        List<InspectOrderQuery.OrderItem> orderInspectionItems = new();
-        List<Error> errors = new();
-
         var goodsIds = order.OrderItems.Select(orderItem => GoodsId.Create(orderItem.Goods.Id)).ToList();
 
         var goodsDictionary = (await _goodsQueryObject
                 .Filter(g => goodsIds.Contains(g.Id))
                 .ExecuteAsync())
             .ToDictionary(g => g.Id, g => g);
+        
+        var orderInspectionItems = GetOrderInspectionItems(order, goodsDictionary);
 
+        return orderInspectionItems.IsError? orderInspectionItems.Errors : new InspectOrderQuery.Result(
+            new(
+                order.Id.Value,
+                orderInspectionItems.Value,
+                new(
+                    order.Address.State,
+                    order.Address.City,
+                    order.Address.Code,
+                    order.Address.StreetAndNumber
+                )
+            )
+        );
+    }
+
+    private ErrorOr<List<InspectOrderQuery.OrderItem>> GetOrderInspectionItems(Order order, Dictionary<GoodsId, Domain.Goods.Goods> goodsDictionary)
+    {
+        List<Error> errors = new();
+        List<InspectOrderQuery.OrderItem> orderInspectionItems = new();
+        
         foreach (var orderItem in order.OrderItems)
         {
             var goodsId = GoodsId.Create(orderItem.Goods.Id);
@@ -63,21 +81,7 @@ public class InspectOrderQueryHandler(
                 )
             );
         }
-
-        if (errors.Any())
-            return errors;
-
-        return new InspectOrderQuery.Result(
-            new(
-                order.Id.Value,
-                orderInspectionItems,
-                new(
-                    order.Address.State,
-                    order.Address.City,
-                    order.Address.Code,
-                    order.Address.StreetAndNumber
-                )
-            )
-        );
+        
+        return errors.Any() ? errors : orderInspectionItems;
     }
 }
