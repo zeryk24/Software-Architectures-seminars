@@ -16,6 +16,17 @@ public class Goods : AggregateRoot<GoodsId>
         Amount = amount;
     }
 
+    public ErrorOr<Success> Modify(string name, int amount)
+    {
+        Name = GoodsName.Create(name);
+        var amountResult = GoodsAmount.Create(amount);
+
+        if (amountResult.IsError)
+            return amountResult.Errors;
+
+        return Result.Success;
+    }
+
     public bool IsAmountAvailable(int amount) => Amount.Value >= amount;
     
     public ErrorOr<Success> Restock(int amount)
