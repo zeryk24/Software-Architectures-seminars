@@ -19,16 +19,6 @@ public class GoodsAmount : ValueObject
 
         return new GoodsAmount(unitsAmount);
     }
-    
-    public ErrorOr<Success> Restock(int amount)
-    {
-        if (amount < 0)
-            return Error.Validation(GoodsErrors.GoodsAmountCanNotBeNegative);
-
-        UnitsAmount += amount;
-
-        return Result.Success;
-    }
 
     protected override IEnumerable<object?> GetEqualityComponents()
     {

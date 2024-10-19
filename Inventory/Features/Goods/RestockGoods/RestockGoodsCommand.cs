@@ -24,7 +24,7 @@ public class RestockGoodsCommandHandler(
         if (goods is null)
             return Error.Validation(GoodsErrors.GoodsNotFound);
 
-        var result = goods.Amount.Restock(command.Amount);
+        var result = goods.Restock(command.Amount);
 
         if (result.IsError)
             return result.Errors;
