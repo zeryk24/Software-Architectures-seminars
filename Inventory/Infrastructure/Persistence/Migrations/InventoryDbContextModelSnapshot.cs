@@ -46,7 +46,7 @@ namespace Inventory.Infrastructure.Persistence.Migrations
                             b1.Property<Guid>("GoodsId")
                                 .HasColumnType("TEXT");
 
-                            b1.Property<int>("UnitsAmount")
+                            b1.Property<int>("Value")
                                 .HasColumnType("INTEGER");
 
                             b1.HasKey("GoodsId");
@@ -83,7 +83,7 @@ namespace Inventory.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Inventory.Domain.Order.Order", b =>
                 {
-                    b.OwnsOne("Inventory.Domain.Order.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("Inventory.Domain.Order.ValueObjects.OrderAddress", "OrderAddress", b1 =>
                         {
                             b1.Property<Guid>("OrderId")
                                 .HasColumnType("TEXT");
@@ -190,7 +190,7 @@ namespace Inventory.Infrastructure.Persistence.Migrations
                                 .IsRequired();
                         });
 
-                    b.Navigation("Address")
+                    b.Navigation("OrderAddress")
                         .IsRequired();
 
                     b.Navigation("OrderItems");

@@ -8,16 +8,16 @@ public class Order : AggregateRoot<OrderId>
     private List<OrderItem.OrderItem> _orderItems = new();
     public IReadOnlyList<OrderItem.OrderItem> OrderItems => _orderItems.AsReadOnly();
 
-    public Address Address { get; private set; }
+    public OrderAddress OrderAddress { get; private set; }
     
     private Order() { }
-    private Order(OrderId id, Address address, IEnumerable<OrderItem.OrderItem> orderItems) : base(id)
+    private Order(OrderId id, OrderAddress orderAddress, IEnumerable<OrderItem.OrderItem> orderItems) : base(id)
     {
-        Address = address;
+        OrderAddress = orderAddress;
         _orderItems = orderItems.ToList();
     }
 
-    public static Order Create(Address address, IEnumerable<OrderItem.OrderItem> orderItems) => new(OrderId.CreateUnique(), address, orderItems);
+    public static Order Create(OrderAddress orderAddress, IEnumerable<OrderItem.OrderItem> orderItems) => new(OrderId.CreateUnique(), orderAddress, orderItems);
 }
 
 public static class OrderErrors

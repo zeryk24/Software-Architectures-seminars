@@ -16,14 +16,14 @@ public class Goods : AggregateRoot<GoodsId>
         Amount = amount;
     }
 
-    public bool IsAmountAvailable(int amount) => Amount.UnitsAmount >= amount;
+    public bool IsAmountAvailable(int amount) => Amount.Value >= amount;
     
     public ErrorOr<Success> Restock(int amount)
     {
         if (amount < 0)
             return Error.Validation(GoodsErrors.RestockedAmountCanNotBeNegative);
         
-        var result = GoodsAmount.Create(Amount.UnitsAmount + amount);
+        var result = GoodsAmount.Create(Amount.Value + amount);
 
         if (result.IsError)
             return result.Errors;

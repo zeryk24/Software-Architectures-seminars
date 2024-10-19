@@ -26,7 +26,7 @@ public class AddGoodsCommandHandler(IRepository<Domain.Goods.Goods> _repository)
             new(
                 addedGoods.Id.Value, 
                 addedGoods.Name.Value, 
-                addedGoods.Amount.UnitsAmount
+                addedGoods.Amount.Value
             )
         );
     }

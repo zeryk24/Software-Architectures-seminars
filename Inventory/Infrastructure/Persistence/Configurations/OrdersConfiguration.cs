@@ -29,7 +29,7 @@ public class OrdersConfiguration : IEntityTypeConfiguration<Order>
                 order => OrderId.Create(order)
             );
 
-        builder.OwnsOne(o => o.Address);
+        builder.OwnsOne(o => o.OrderAddress);
     }
 
     private void ConfigureOrderItemsTable(EntityTypeBuilder<Order> builder)

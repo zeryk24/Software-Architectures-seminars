@@ -42,7 +42,7 @@ public static class InventoryInstaller
             OrderItemAmount.Create(3).Value,
             OrderItemPrice.Create(150, Currency.Czk).Value);
 
-        var address = Address.Create(State.Czechia, "Brno", "63800", "Cejl 15");
+        var address = OrderAddress.Create(State.Czechia, "Brno", "63800", "Cejl 15");
 
         var order = Order.Create(address, new[] { orderItem });
 

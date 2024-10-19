@@ -36,7 +36,7 @@ public class RestockGoodsCommandHandler(
             new(
                 goods.Id.Value,
                 goods.Name.Value,
-                goods.Amount.UnitsAmount
+                goods.Amount.Value
             )
         );
     }

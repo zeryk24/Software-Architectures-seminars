@@ -3,14 +3,14 @@ using Inventory.Domain.Common.Enums;
 
 namespace Inventory.Domain.Order.ValueObjects;
 
-public class Address : ValueObject
+public class OrderAddress : ValueObject
 {
     public State State { get; private set; }
     public string City { get; private set; }
     public string Code { get; private set; }
     public string StreetAndNumber { get; private set; }
     
-    private Address(State state, string city, string code, string streetAndNumber)
+    private OrderAddress(State state, string city, string code, string streetAndNumber)
     {
         State = state;
         City = city;
@@ -18,8 +18,8 @@ public class Address : ValueObject
         StreetAndNumber = streetAndNumber;
     }
 
-    public static Address Create(State state, string city, string code, string streetAndNumber) =>
-        new Address(state, city, code, streetAndNumber);
+    public static OrderAddress Create(State state, string city, string code, string streetAndNumber) =>
+        new OrderAddress(state, city, code, streetAndNumber);
     
     protected override IEnumerable<object?> GetEqualityComponents()
     {

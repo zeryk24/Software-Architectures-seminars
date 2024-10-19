@@ -5,11 +5,11 @@ namespace Inventory.Domain.Goods.ValueObjects;
 
 public class GoodsAmount : ValueObject
 {
-    public int UnitsAmount { get; private set; }
+    public int Value { get; private set; }
 
-    private GoodsAmount(int unitsAmount)
+    private GoodsAmount(int value)
     {
-        UnitsAmount = unitsAmount;
+        Value = value;
     }
 
     public static ErrorOr<GoodsAmount> Create(int unitsAmount)
@@ -22,6 +22,6 @@ public class GoodsAmount : ValueObject
 
     protected override IEnumerable<object?> GetEqualityComponents()
     {
-        yield return UnitsAmount;
+        yield return Value;
     }
 }

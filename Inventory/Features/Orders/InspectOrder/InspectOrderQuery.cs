@@ -48,10 +48,10 @@ public class InspectOrderQueryHandler(
                 order.Id.Value,
                 orderInspectionItems.Value,
                 new(
-                    order.Address.State,
-                    order.Address.City,
-                    order.Address.Code,
-                    order.Address.StreetAndNumber
+                    order.OrderAddress.State,
+                    order.OrderAddress.City,
+                    order.OrderAddress.Code,
+                    order.OrderAddress.StreetAndNumber
                 )
             )
         );
