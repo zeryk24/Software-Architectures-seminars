@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\FoodDelivery.Contracts\FoodDelivery.Contracts.csproj" />
       <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 

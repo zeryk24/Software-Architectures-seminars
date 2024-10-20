@@ -10,7 +10,9 @@
     <PackageReference Include="MediatR" Version="11.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FoodDelivery.Contracts\FoodDelivery.Contracts.csproj" />
     <ProjectReference Include="..\FoodDelivery.DAL.Infrastructure\FoodDelivery.DAL.Infrastructure.csproj" />
     <ProjectReference Include="..\FoodDelivery.DAL\FoodDelivery.DAL.EFCore.csproj" />
+    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 </Project>

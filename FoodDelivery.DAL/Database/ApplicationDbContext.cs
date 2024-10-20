@@ -13,7 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<UserEntity,IdentityRole<in
 
     }
 
-    public ApplicationDbContext(DbContextOptions options) : base(options) { }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     
     // //only for migrations
     // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

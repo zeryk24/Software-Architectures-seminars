@@ -58,8 +58,13 @@ public class Goods : AggregateRoot<GoodsId>
 
         return Result.Success;
     }
-    
+
     public static ErrorOr<Goods> Create(string name, int amount)
+    {
+        return Create(GoodsId.CreateUnique(), name, amount);
+    }
+    
+    public static ErrorOr<Goods> Create(GoodsId Id, string name, int amount)
     {
         var goodsName = GoodsName.Create(name);
         var goodsAmount = GoodsAmount.Create(amount);
@@ -67,8 +72,9 @@ public class Goods : AggregateRoot<GoodsId>
         if (goodsAmount.IsError)
             return goodsAmount.Errors;
         
-        return new Goods(GoodsId.CreateUnique(), goodsName, goodsAmount.Value);
+        return new Goods(Id, goodsName, goodsAmount.Value);
     }
+    
 }
 
 public static class GoodsErrors

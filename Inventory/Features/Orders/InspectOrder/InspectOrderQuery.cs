@@ -16,7 +16,7 @@ public record InspectOrderQuery(Guid OrderId)
 
     public record OrderItem(Guid Id, int Amount, OrderItemPrice Price, bool IsAmountAvailable);
 
-    public record OrderItemPrice(Currency Currency, int Value);
+    public record OrderItemPrice(Currency Currency, double Value);
 
     public record Address(State State, string City, string Code, string StreetAndNumber);
 }

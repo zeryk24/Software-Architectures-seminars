@@ -24,8 +24,13 @@ public class Order : AggregateRoot<OrderId>
 
     public static Order Create(OrderAddress orderAddress, IEnumerable<OrderItem.OrderItem> orderItems)
     {
+        return Create(OrderId.CreateUnique(), orderAddress, orderItems);
+    }
+
+    public static Order Create(OrderId Id, OrderAddress orderAddress, IEnumerable<OrderItem.OrderItem> orderItems)
+    {
         return new Order(
-            OrderId.CreateUnique(),
+            Id,
             orderAddress,
             orderItems,
             OrderProcessed.Create(null)

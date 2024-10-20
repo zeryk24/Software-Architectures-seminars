@@ -1,6 +1,7 @@
 using System.Reflection;
 using Inventory.Domain.Common.Enums;
 using Inventory.Domain.Goods;
+using Inventory.Domain.Goods.ValueObjects;
 using Inventory.Domain.Order;
 using Inventory.Domain.Order.OrderItem;
 using Inventory.Domain.Order.OrderItem.ValueObjects;
@@ -33,9 +34,11 @@ public static class InventoryInstaller
         context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
         
-        var goods = Goods.Create("Svíčková", 10).Value;
+        var goods = Goods.Create(GoodsId.Create(Guid.Parse("00000001-0000-0000-0000-000000000000")), "Svíčková", 10).Value;
+        var goods2 = Goods.Create(GoodsId.Create(Guid.Parse("00000003-0000-0000-0000-000000000000")), "Guláš", 10).Value;
 
         context.Goods.Add(goods);
+        context.Goods.Add(goods2);
         
         var orderItem = OrderItem.Create(
             OrderItemGoods.Create(goods.Id.Value), 
