@@ -3,6 +3,7 @@ using FoodDelivery.Presentation;
 using Inventory;
 using Inventory.Infrastructure.Persistence;
 using Microsoft.OpenApi.Models;
+using Packing;
 using Wolverine;
 using Wolverine.Http;
 
@@ -76,8 +77,14 @@ var connectionString = builder.Configuration.GetConnectionString("DeployedDataba
 builder.Services.InstallPresentation(connectionString);
 
 //New modules
+//Inventory
 var inventoryConnectionString = builder.Configuration.GetConnectionString("InventoryDatabase");
 builder.Services.InstallInventory(inventoryConnectionString!);
+
+//Packing
+var packingConnectionString = builder.Configuration.GetConnectionString("PackingDatabase");
+builder.Services.InstallPacking(packingConnectionString!);
+
 
 var securityKey = builder.Configuration["AuthSettings:Key"];
 builder.Services.ApiInstall(securityKey);
@@ -99,6 +106,9 @@ InventoryInstaller.SeedInventory(app.Services.GetService<InventoryDbContext>());
 
         // Separate Swagger page for new API endpoints
         c.SwaggerEndpoint("/swagger/inventory/swagger.json", "Inventory v1");
+        
+        // Separate Swagger page for new API endpoints
+        c.SwaggerEndpoint("/swagger/packing/swagger.json", "Packing v1");
     });
     
     app.Map("/new-api-docs", appBuilder =>

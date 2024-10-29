@@ -1,31 +1,27 @@
 using System.Reflection;
-using Inventory.Domain.Common;
-using Inventory.Domain.Goods;
-using Inventory.Domain.Order;
 using Microsoft.EntityFrameworkCore;
+using Packing.Domain.Common;
 using Wolverine;
 
-namespace Inventory.Infrastructure.Persistence;
+namespace Packing.Infrastructure.Persistence;
 
-public class InventoryDbContext : DbContext
+public class PackingDbContext : DbContext
 {
     private readonly IMessageBus _sender;
-    public InventoryDbContext() { }
+    
+    public PackingDbContext() { }
 
-    public InventoryDbContext(DbContextOptions<InventoryDbContext> options, IMessageBus sender) : base(options)
+    public PackingDbContext(DbContextOptions<PackingDbContext> options, IMessageBus sender) : base(options)
     {
         _sender = sender;
     }
-
-    public DbSet<Goods> Goods { get; set; } = null!;
-    public DbSet<Order> Orders { get; set; } = null!;
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
-
+    
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
         var domainEvents = ChangeTracker.Entries<BaseEntity>()
