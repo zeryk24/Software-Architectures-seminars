@@ -24,6 +24,8 @@ public class Goods : AggregateRoot<GoodsId>
         if (amountResult.IsError)
             return amountResult.Errors;
 
+        Amount = amountResult.Value;
+
         return Result.Success;
     }
 

@@ -12,11 +12,16 @@ public record ModifyGoodsCommand(Guid GoodsId, string Name, int Amount)
     public record ModifiedGoods(Guid Id, string Name, int Amount);
 }
 
-public class ModifyGoodsCommandHandler(IQueryObject<Domain.Goods.Goods> _queryObject)
+public class ModifyGoodsCommandHandler(
+    IQueryObject<Domain.Goods.Goods> _queryObject,
+    IRepository<Domain.Goods.Goods> _repository
+    )
 {
     public async Task<ErrorOr<ModifyGoodsCommand.Result>> Handle(ModifyGoodsCommand command)
     {
-        var goods = (await _queryObject.Filter(g => g.Id == GoodsId.Create(command.GoodsId)).ExecuteAsync())
+        var goods = 
+            (await _queryObject.Filter(g => 
+                g.Id == GoodsId.Create(command.GoodsId)).ExecuteAsync())
             .SingleOrDefault();
 
         if (goods is null)
@@ -26,7 +31,11 @@ public class ModifyGoodsCommandHandler(IQueryObject<Domain.Goods.Goods> _queryOb
 
         if (result.IsError)
             return result.Errors;
+        
+        _repository.Update(goods);
+        await _repository.CommitAsync();
 
-        return new ModifyGoodsCommand.Result(new(goods.Id.Value, goods.Name.Value, goods.Amount.Value));
+        return new ModifyGoodsCommand.Result(
+            new(goods.Id.Value, goods.Name.Value, goods.Amount.Value));
     }
 }
