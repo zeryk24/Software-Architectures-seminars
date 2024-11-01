@@ -11,7 +11,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Infrastructure\Persistence\Configurations\" />
       <Folder Include="Infrastructure\Persistence\Migrations\" />
       <Folder Include="Presentation\" />
     </ItemGroup>
