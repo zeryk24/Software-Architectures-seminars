@@ -1,5 +1,6 @@
 using Packing.Domain.Common;
 using Packing.Domain.Order.OrderItem.ValueObjects;
+using ErrorOr;
 
 namespace Packing.Domain.Order.OrderItem;
 
@@ -14,5 +15,13 @@ public class OrderItem : Entity<OrderItemId>
         Product = product;
     }
 
-    public static OrderItem Create(OrderItemId id, OrderProduct product) => new(id, product);
+    public static ErrorOr<OrderItem> Create(Guid id, Guid goodsId, int amount)
+    {
+        var product = OrderProduct.Create(goodsId, amount);
+
+        if (product.IsError)
+            return product.Errors;
+        
+        return new OrderItem(OrderItemId.Create(id), product.Value);
+    }
 }

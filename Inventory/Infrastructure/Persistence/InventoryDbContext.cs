@@ -28,19 +28,35 @@ public class InventoryDbContext : DbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
+        var result = await base.SaveChangesAsync(cancellationToken);
+
+        await PublishEventsAsync();
+        
+        return result;
+    }
+    
+    private async Task PublishEventsAsync()
+    {
         var domainEvents = ChangeTracker.Entries<BaseEntity>()
             .Select(e => e.Entity)
             .Where(e => e.DomainEvents.Any())
-            .SelectMany(e => e.DomainEvents);
-        
-        var result = await base.SaveChangesAsync(cancellationToken);
+            .SelectMany(e =>
+            {
+                var events = e.DomainEvents;
+                
+                e.ClearEvents();
+                
+                return events;
+            }).ToList();
 
         //TODO: handle errors
         foreach (var domainEvent in domainEvents)
         {
             await _sender.PublishAsync(domainEvent);
+
+            var integrationEvent = domainEvent.MapToIntegrationEvent();
+            if (integrationEvent is not null)
+                await _sender.PublishAsync(integrationEvent); //TODO: handle outbox
         }
-        
-        return result;
     }
 }

@@ -43,9 +43,10 @@ public class Order : AggregateRoot<OrderId>
             return Error.Validation(OrderErrors.OrderWasAlreadyProcessed);
         
         Processed = OrderProcessed.Create(now);
-        
-        Raise(new OrderProcessedEvent(Guid.NewGuid(), this));
 
+        var domainEvent = new OrderProcessedDomainEvent(Guid.NewGuid(), this);
+        RaiseEvent(domainEvent);
+        
         return Result.Success;
     }
 }

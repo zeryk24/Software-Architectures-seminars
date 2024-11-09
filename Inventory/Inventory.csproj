@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FoodDelivery.Contracts\FoodDelivery.Contracts.csproj" />
+      <ProjectReference Include="..\Inventory.Contracts\Inventory.Contracts.csproj" />
       <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 
@@ -18,6 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Domain\Order\Services\" />
       <Folder Include="Infrastructure\Persistence\Migrations\" />
     </ItemGroup>
 

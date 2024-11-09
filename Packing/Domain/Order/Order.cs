@@ -18,6 +18,7 @@ public class Order : AggregateRoot<OrderId>
     private Order(OrderId id, IEnumerable<OrderItem.OrderItem> orderItems) : base(id)
     {
         Packaged = OrderPackaged.Create(null);
+        _orderItems = orderItems.ToList();
     }
 
     public static Order Create(OrderId id, IEnumerable<OrderItem.OrderItem> orderItems) => new(id, orderItems);

@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Packing.Infrastructure.Persistence;
 using RegistR.Attributes.Extensions;
+using Wolverine.Attributes;
 
+[assembly: WolverineModule]
 namespace Packing;
 
 public static class PackingInstaller
