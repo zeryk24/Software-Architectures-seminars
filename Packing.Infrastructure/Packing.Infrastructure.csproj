@@ -9,10 +9,6 @@
     <ItemGroup>
       <ProjectReference Include="..\Inventory.Contracts\Inventory.Contracts.csproj" />
       <ProjectReference Include="..\Packing.Application\Packing.Application.csproj" />
-      <ProjectReference Include="..\Packing.Domain\Packing.Domain.csproj" />
-      <ProjectReference Include="..\Packing.Infrastructure\Packing.Infrastructure.csproj" />
-      <ProjectReference Include="..\Packing.Presentation\Packing.Presentation.csproj" />
-      <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
     </ItemGroup>
 
     <ItemGroup>
