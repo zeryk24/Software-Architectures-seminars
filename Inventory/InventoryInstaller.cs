@@ -46,10 +46,13 @@ public static class InventoryInstaller
             OrderItemPrice.Create(150, Currency.Czk).Value);
 
         var address = OrderAddress.Create(State.Czechia, "Brno", "63800", "Cejl 15");
+        var address2 = OrderAddress.Create(State.Czechia, "Brno", "63800", "Cejl 10");
 
         var order = Order.Create(address, new[] { orderItem });
+        var order2 = Order.Create(address2, new[] { orderItem,orderItem });
 
         context.Orders.Add(order);
+        context.Orders.Add(order2);
             
         context.SaveChanges();
     }

@@ -20,6 +20,7 @@ public class EfCoreRepository<TAggregate> : IRepository<TAggregate> where TAggre
     public async Task<TAggregate> InsertAsync(TAggregate entity)
     {
         await _dbSet.AddAsync(entity);
+        await Task.Delay(10000);
         return entity;
     }
 

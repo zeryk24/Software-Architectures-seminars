@@ -19,10 +19,11 @@ public class CreateOrderCommandHandler(IRepository<Domain.Order.Order> _reposito
     public async Task<ErrorOr<CreateOrderCommand.Result>> Handle(CreateOrderCommand command)
     {
         var order = Domain.Order.Order.Create(
-            OrderId.Create(command.NewOrder.Id),
+            OrderId.Create(GetId(command)),
             command.NewOrder.OrderItems.Select(oi => OrderItem.Create(
                     oi.Id,
-                    oi.GoodsId, oi.Amount
+                    oi.GoodsId, 
+                    oi.Amount
                 ).Value
             )
         );
@@ -31,5 +32,11 @@ public class CreateOrderCommandHandler(IRepository<Domain.Order.Order> _reposito
         await _repository.CommitAsync();
 
         return new CreateOrderCommand.Result();
+    }
+
+    public Guid GetId(CreateOrderCommand command)
+    {
+        var id = command.NewOrder.Id;
+        return Guid.Parse("6fa7c1ae-f834-42f4-8fa9-0feda7fa9fed");
     }
 }

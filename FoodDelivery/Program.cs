@@ -3,17 +3,46 @@ using FoodDelivery.Presentation;
 using Inventory;
 using Inventory.Infrastructure.Persistence;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Packing;
+using Packing.Infrastructure.Persistence;
 using Wolverine;
 using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
+const string serviceName = "GimmeFood";
+
+builder.AddServiceDefaults();
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Logging.AddOpenTelemetry(options =>
+{
+    options
+        .SetResourceBuilder(
+            ResourceBuilder.CreateDefault()
+                .AddService(serviceName))
+        .AddOtlpExporter();
+});
+builder.Services.AddOpenTelemetry()
+      .ConfigureResource(resource => resource.AddService(serviceName))
+      .WithTracing(tracing => tracing
+          .AddAspNetCoreInstrumentation()
+          .AddHttpClientInstrumentation()
+          .AddEntityFrameworkCoreInstrumentation()
+          .AddSource("Wolverine")
+          .AddOtlpExporter())
+      .WithMetrics(metrics => metrics
+          .AddAspNetCoreInstrumentation()
+          .AddHttpClientInstrumentation()
+          .AddOtlpExporter());
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.CustomSchemaIds(s => s.FullName.Replace("+", "."));
@@ -93,7 +122,10 @@ builder.Host.UseWolverine();
 
 var app = builder.Build();
 
+app.MapDefaultEndpoints();
+
 InventoryInstaller.SeedInventory(app.Services.GetService<InventoryDbContext>());
+PackingInstaller.Configure(app.Services.GetService<PackingDbContext>());
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

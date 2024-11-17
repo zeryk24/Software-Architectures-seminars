@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Packing.Application;
 using Packing.Domain;
 using Packing.Infrastructure;
+using Packing.Infrastructure.Persistence;
 using Packing.Presentation;
 using RegistR.Attributes.Extensions;
 using Wolverine.Attributes;
@@ -22,5 +23,11 @@ public static class PackingInstaller
         services.InstallDomain();
         
         return services;
+    }
+
+    public static void Configure(PackingDbContext? context)
+    {
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
     }
 }
