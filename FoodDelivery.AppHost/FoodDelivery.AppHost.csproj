@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodDelivery\FoodDelivery.csproj" />
+    <ProjectReference Include="..\PackingService\Packing\Packing.csproj" />
   </ItemGroup>
 
 </Project>

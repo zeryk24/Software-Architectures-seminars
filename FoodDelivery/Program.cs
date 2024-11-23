@@ -7,8 +7,6 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Packing;
-using Packing.Infrastructure.Persistence;
 using Wolverine;
 using Wolverine.Http;
 
@@ -110,10 +108,6 @@ builder.Services.InstallPresentation(connectionString);
 var inventoryConnectionString = builder.Configuration.GetConnectionString("InventoryDatabase");
 builder.Services.InstallInventory(inventoryConnectionString!);
 
-//Packing
-var packingConnectionString = builder.Configuration.GetConnectionString("PackingDatabase");
-builder.Services.InstallPacking(packingConnectionString!);
-
 
 var securityKey = builder.Configuration["AuthSettings:Key"];
 builder.Services.ApiInstall(securityKey);
@@ -125,7 +119,6 @@ var app = builder.Build();
 app.MapDefaultEndpoints();
 
 InventoryInstaller.SeedInventory(app.Services.GetService<InventoryDbContext>());
-PackingInstaller.Configure(app.Services.GetService<PackingDbContext>());
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())

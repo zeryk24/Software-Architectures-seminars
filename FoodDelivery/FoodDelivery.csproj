@@ -24,7 +24,6 @@
     <ProjectReference Include="..\FoodDelivery.Presentation\FoodDelivery.Presentation.csproj" />
     <ProjectReference Include="..\FoodDelivery.ServiceDefaults\FoodDelivery.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Inventory\Inventory.csproj" />
-    <ProjectReference Include="..\Packing\Packing.csproj" />
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 </Project>
