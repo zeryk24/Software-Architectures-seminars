@@ -37,6 +37,6 @@ public class CreateOrderCommandHandler(IRepository<Domain.Order.Order> _reposito
     public Guid GetId(CreateOrderCommand command)
     {
         var id = command.NewOrder.Id;
-        return Guid.Parse("6fa7c1ae-f834-42f4-8fa9-0feda7fa9fed");
+        return id; //Guid.Parse("6fa7c1ae-f834-42f4-8fa9-0feda7fa9fed");
     }
 }
