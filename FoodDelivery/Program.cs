@@ -1,14 +1,17 @@
 using FoodDelivery.Installers;
 using FoodDelivery.Presentation;
 using Inventory;
+using Inventory.Contracts.IntegrationEvents.InventoryOrderProcessed;
 using Inventory.Infrastructure.Persistence;
 using Microsoft.OpenApi.Models;
+using Oakton.Resources;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Wolverine;
 using Wolverine.Http;
+using Wolverine.Kafka;
 
 var builder = WebApplication.CreateBuilder(args);
 const string serviceName = "GimmeFood";
@@ -112,7 +115,15 @@ builder.Services.InstallInventory(inventoryConnectionString!);
 var securityKey = builder.Configuration["AuthSettings:Key"];
 builder.Services.ApiInstall(securityKey);
 
-builder.Host.UseWolverine();
+builder.Host.UseWolverine(opts =>
+{
+    opts.UseKafka("localhost:50553");
+    
+    opts.PublishMessage<InventoryOrderProcessedIntegrationEvent>()
+        .ToKafkaTopic("InventoryOrderProcessed");
+    
+    opts.Services.AddResourceSetupOnStartup();
+});
 
 var app = builder.Build();
 

@@ -27,7 +27,7 @@ public static class PackingInstaller
 
     public static void Configure(PackingDbContext? context)
     {
-        // context.Database.EnsureDeleted();
-        // context.Database.EnsureCreated();
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
     }
 }

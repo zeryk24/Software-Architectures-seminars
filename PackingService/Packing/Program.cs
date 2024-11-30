@@ -1,3 +1,4 @@
+using Oakton.Resources;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -5,6 +6,7 @@ using OpenTelemetry.Trace;
 using Packing;
 using Packing.Infrastructure.Persistence;
 using Wolverine;
+using Wolverine.Kafka;
 
 var builder = WebApplication.CreateBuilder(args);
 const string serviceName = "Packing";
@@ -36,7 +38,14 @@ builder.Services.AddOpenTelemetry()
 
 builder.Services.InstallPacking("Data Source=Packing.db");
 
-builder.Host.UseWolverine();
+builder.Host.UseWolverine(opts =>
+{
+    opts.UseKafka("localhost:50553");
+    
+    opts.ListenToKafkaTopic("InventoryOrderProcessed").ProcessInline().BufferedInMemory();
+    
+    opts.Services.AddResourceSetupOnStartup();
+});
 
 var app = builder.Build();
 
