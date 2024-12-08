@@ -20,6 +20,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EventLog\EventLog.csproj" />
     <ProjectReference Include="..\FoodDelivery.BL\FoodDelivery.BL.csproj" />
     <ProjectReference Include="..\FoodDelivery.Presentation\FoodDelivery.Presentation.csproj" />
     <ProjectReference Include="..\FoodDelivery.ServiceDefaults\FoodDelivery.ServiceDefaults.csproj" />

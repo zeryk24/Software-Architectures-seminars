@@ -1,3 +1,4 @@
+using EventLog;
 using FoodDelivery.Installers;
 using FoodDelivery.Presentation;
 using Inventory;
@@ -106,10 +107,12 @@ builder.Services.AddSwaggerGen(c =>
 var connectionString = builder.Configuration.GetConnectionString("DeployedDatabase");
 builder.Services.InstallPresentation(connectionString);
 
+EventLogInstaller.InstallInventory(builder.Services, "s");
+
 //New modules
 //Inventory
 var inventoryConnectionString = builder.Configuration.GetConnectionString("InventoryDatabase");
-builder.Services.InstallInventory(inventoryConnectionString!);
+InventoryInstaller.InstallInventory(builder.Services, inventoryConnectionString!);
 
 
 var securityKey = builder.Configuration["AuthSettings:Key"];
@@ -117,10 +120,10 @@ builder.Services.ApiInstall(securityKey);
 
 builder.Host.UseWolverine(opts =>
 {
-    opts.UseKafka("localhost:50553");
-    
-    opts.PublishMessage<InventoryOrderProcessedIntegrationEvent>()
-        .ToKafkaTopic("InventoryOrderProcessed");
+    // opts.UseKafka("localhost:50553");
+    //
+    // opts.PublishMessage<InventoryOrderProcessedIntegrationEvent>()
+    //     .ToKafkaTopic("InventoryOrderProcessed");
     
     opts.Services.AddResourceSetupOnStartup();
 });
